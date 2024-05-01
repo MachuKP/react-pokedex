@@ -3,13 +3,14 @@ export interface pokemonData {
   url: string;
 }
 
-export interface errorType {
-  isError: boolean;
-  errorMessage: string;
-}
-
 export interface dataStateType {
   results: pokemonData[];
   next: string;
   previous: string;
+}
+
+export interface configModalType {
+  title: string;
+  description: string;
+  buttonConfirm: string;
 }

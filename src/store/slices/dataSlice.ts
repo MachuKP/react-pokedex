@@ -1,21 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { pokemonData, errorType } from "../../type";
+import { pokemonData } from "../../type";
 
 export interface DataState {
   pokemonList: pokemonData[];
   getNext: string;
   getPrevious: string;
-  error: errorType;
+  error: boolean;
 }
 
 const initialState: DataState = {
   pokemonList: [],
   getNext: '',
   getPrevious: '',
-  error: {
-    isError: false,
-    errorMessage: "",
-  },
+  error: false
 };
 
 export const dataSlice = createSlice({

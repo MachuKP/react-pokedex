@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import dataReducer from "./slices/dataSlice";
+import loaderReducer from "./slices/loaderSlice";
 
 export const store = configureStore({
   reducer: {
-    dataReducer
+    dataReducer,
+    loaderReducer
   },
 });
 

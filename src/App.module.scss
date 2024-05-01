@@ -16,11 +16,18 @@
   .contentContainer {
     padding: 0 25px;
     display: flex;
+    flex: 1;
     justify-content: center;
     flex-wrap: wrap;
     gap: 16px;
+    padding-bottom: 90px;
   }
   .footer {
+    position: fixed;
+    background-color: $gray-background;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
     padding: 25px;
     display: flex;
     justify-content: space-between;

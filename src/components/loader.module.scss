@@ -1,0 +1,11 @@
+@import "../variable.module.scss";
+
+.loader {
+    width: 4rem;
+    height: 4rem;
+    border: 0.5rem solid $gray-color;
+    border-top: 0.5rem solid $primary-color;
+    border-radius: 50%;
+    position: absolute;
+    box-sizing: border-box;
+}
