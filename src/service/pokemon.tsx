@@ -14,6 +14,6 @@ export const getPokemons = async (url?: string) => {
     const response = await _get(getUrl);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return err
   }
 };

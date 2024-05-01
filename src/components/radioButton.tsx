@@ -14,7 +14,7 @@ const RadioButton = ({handleClick, checked}: propType) => {
           id="name"
           name="sort_by"
           value="Name"
-          defaultChecked={checked === 'Name' ? true : false}
+          checked={checked === 'Name' ? true : false}
           onChange={(e) => handleClick(e)}
         />
         <label htmlFor="name">Sort Name</label>
@@ -25,7 +25,7 @@ const RadioButton = ({handleClick, checked}: propType) => {
           id="id"
           name="sort_by"
           value="ID"
-          defaultChecked={checked === 'ID' ? true : false}
+          checked={checked === 'ID' ? true : false}
           onChange={(e) => handleClick(e)}
         />
         <label htmlFor="id">Sort ID</label>
