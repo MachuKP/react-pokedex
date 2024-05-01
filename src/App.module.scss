@@ -1,0 +1,28 @@
+@import "./variable.module.scss";
+
+.container {
+  background-color: $gray-background;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px;
+    .title {
+      font-size: 32px;
+      font-weight: 500;
+      color: $title-font;
+    }
+  }
+  .contentContainer {
+    padding: 0 25px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer {
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

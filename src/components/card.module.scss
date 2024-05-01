@@ -1,0 +1,30 @@
+@import "../variable.module.scss";
+
+.container {
+    background-color: $light-color;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    width: 316px;
+    height: 104px;
+    margin-bottom: 15px;
+    .imageContainer {
+        background-color: $gray-color;
+        border-radius: 50%;
+        height: 72px;
+        width: 72px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0px 17px;
+        .image {
+            height: 64px;
+            width: 64px;
+        }
+    }
+    .nameContainer {
+        font-weight: 500;
+        font-size: 20px;
+    }
+}

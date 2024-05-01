@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+  font-family: "EncodeSans";
+  src: url("./fonts/EncodeSans_Condensed-Regular.ttf");
+}
+
+@import "./variable.module.scss";
+
+body {
+  height: 100vh;
+  margin: 0;
+  background-color: $gray-background;
+}
+
+h1,
+h2,
+h3,
+label {
+  font-family: "Roboto";
+  margin: 0;
+  padding: 0;
+}
+
+div,
+p,
+span {
+  font-family: "EncodeSans";
+  margin: 0;
+  padding: 0;
+}
+
+input[type="radio"] {
+  accent-color: $primary-color;
+  margin: 8px;
+}
+
+label {
+    margin: 8px 0;
+}
+
+
