@@ -6,23 +6,28 @@ import CustomButton from "./components/customButton";
 import AlertModal from "./components/alertModal";
 import Loader from "./components/loader";
 
-import { getPokemons } from "./service";
+import { getAllPokemonsList, getPokemons } from "./service";
 import { CONFIG_API } from "./config/config";
 import { configModalType, dataStateType, pokemonData } from "./type";
 // store
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "./store/store";
 import { setShowLoader } from "./store/slices/loaderSlice";
-import { setErrorAction, setPokemonListAction } from "./store/slices/dataSlice";
+import {
+  setErrorAction,
+  setPokemonListAction,
+  setPokemonListByNameAction,
+  setOrder,
+  setTotal,
+} from "./store/slices/dataSlice";
 // style
 import styles from "./App.module.scss";
 import "./App.module.scss";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { pokemonList, getNext, getPrevious } = useAppSelector(
-    (state) => state.dataReducer
-  );
+  const { pokemonListById, pokemonListByName, start, current, total } =
+    useAppSelector((state) => state.dataReducer);
 
   const [configModal, setConfigModal] = useState<configModalType>({
     title: "",
@@ -31,27 +36,55 @@ const App = () => {
   });
 
   useEffect(() => {
-    if (!pokemonList.length) {
-      getAllPokemon();
-    }
+    const initial = async () => {
+      const count = await getCount();
+      dispatch(setTotal(count));
+      await getAllPokemon(count);
+    };
+    initial();
+    // if (!pokemonListById.length) {
+    //   getAllPokemon();
+    // }
   }, []);
 
   const [showList, setShowList] = useState<pokemonData[]>([]);
   const [sort, setSort] = useState<string>("ID");
+  const [disableNext, setDisableNext] = useState<boolean>(false);
+  const [disablePrevious, setDisablePrevious] = useState<boolean>(true);
+
 
   const setStateData = (data: dataStateType) => {
-    const payload = {
-      results: data.results,
-      getNext: data.next,
-      getPrevious: data.previous,
-    };
+    const payload = data.results;
+    let temp = [...payload];
+    temp.sort(compare);
     dispatch(setPokemonListAction(payload));
-    setShowList(data.results);
+    dispatch(setPokemonListByNameAction(temp));
+    let tempSplice = [...payload];
+    const spliceList = tempSplice.splice(start, current);
+    setShowList(spliceList);
   };
 
-  const getAllPokemon = async () => {
+  const getCount = async () => {
     dispatch(setShowLoader(true));
     const data = await getPokemons();
+    if (data.count) {
+      return data.count;
+    } else if (data.name === "AxiosError") {
+      setConfigModal(() => {
+        return {
+          title: data.name,
+          description: data.message,
+          buttonConfirm: "Close",
+        };
+      });
+      dispatch(setErrorAction(true));
+    }
+    dispatch(setShowLoader(false));
+  };
+
+  const getAllPokemon = async (count: number) => {
+    dispatch(setShowLoader(true));
+    const data = await getAllPokemonsList(count);
     if (data.results) {
       setStateData(data);
     } else if (data.name === "AxiosError") {
@@ -69,21 +102,61 @@ const App = () => {
 
   const clickPrevious = async () => {
     dispatch(setShowLoader(true));
-    const data = await getPokemons(getPrevious);
-    setStateData(data);
-    setSort("ID");
+    if (start > 0) {
+      const newStart = start - CONFIG_API.defaultLimit;
+      let payload = {
+        start: newStart,
+        current: start,
+      };
+      if (newStart === 0) {
+        setDisablePrevious(true)
+      }
+      setDisableNext(false)
+      dispatch(setOrder(payload));
+      setShowPokemonList(sort, newStart, start);
+    }
+    // const data = await getPokemons(getPrevious);
+    // setStateData(data);
     dispatch(setShowLoader(false));
   };
 
   const clickNext = async () => {
     dispatch(setShowLoader(true));
-    const data = await getPokemons(getNext);
-    setStateData(data);
-    setSort("ID");
+    if (total > current) {
+      const newCurrent = current + CONFIG_API.defaultLimit;
+      let payload = {
+        start: current,
+        current: newCurrent,
+      };
+      if (total <= newCurrent) {
+        setDisableNext(true)
+      }
+      setDisablePrevious(false)
+      dispatch(setOrder(payload));
+      setShowPokemonList(sort, current, newCurrent);
+    }
+    // const data = await getPokemons(getNext);
+    // setStateData(data);
     dispatch(setShowLoader(false));
   };
 
-  function compare(a: pokemonData, b: pokemonData) {
+  const setShowPokemonList = (
+    key: string,
+    startOrder: number,
+    currentOrder: number
+  ) => {
+    let temp;
+    let sortKey = key;
+    if (sortKey === "ID") {
+      temp = [...pokemonListById];
+    } else {
+      temp = [...pokemonListByName];
+    }
+    const spliceList = temp.slice(startOrder, currentOrder);
+    setShowList(spliceList);
+  };
+
+  const compare = (a: pokemonData, b: pokemonData) => {
     if (a.name < b.name) {
       return -1;
     }
@@ -91,17 +164,11 @@ const App = () => {
       return 1;
     }
     return 0;
-  }
+  };
 
   const onClickRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSort(e.target.value);
-    if (e.target.value === "ID") {
-      setShowList(pokemonList);
-    } else {
-      let temp = [...showList];
-      temp.sort(compare);
-      setShowList(temp);
-    }
+    setShowPokemonList(e.target.value, start, current);
   };
 
   const handleClose = () => {
@@ -129,10 +196,12 @@ const App = () => {
         <CustomButton
           label={`Previous ${CONFIG_API.defaultLimit}`}
           handleOnclick={clickPrevious}
+          disable={disablePrevious}
         />
         <CustomButton
           label={`Next  ${CONFIG_API.defaultLimit}`}
           handleOnclick={clickNext}
+          disable={disableNext}
         />
       </div>
     </div>

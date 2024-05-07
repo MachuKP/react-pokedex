@@ -49,7 +49,7 @@ const AlertModal = ({ handleClose, configModal }: propType) => {
             exit="exit"
           >
             <h3 className={styles.header}>
-              {title ? title : "Title"} <label className={styles.icon}>x</label>
+              {title ? title : "Title"} <label className={styles.icon} onClick={handleClose}>x</label>
             </h3>
             <div className={styles.body}>
               {description ? description : "Description"}

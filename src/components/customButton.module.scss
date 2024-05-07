@@ -2,7 +2,6 @@
 
 .button {
   color: $primary-color;
-  border-color: $primary-color;
   font-size: 16px;
   border: 1px solid $primary-color;
   border-radius: 4px;
@@ -10,7 +9,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   label {
+    cursor: pointer;
     margin: 0;
+  }
+  &.disable {
+    cursor: not-allowed;
+    border-color: $gray-color;
+    color: $gray-color;
+    label {
+      cursor: not-allowed;
+    }
   }
 }
