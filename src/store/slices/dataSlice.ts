@@ -8,8 +8,7 @@ export interface DataState {
   start: number;
   current: number;
   total: number;
-  // getNext: string;
-  // getPrevious: string;
+  sortStore: string;
   error: boolean;
 }
 
@@ -19,9 +18,8 @@ const initialState: DataState = {
   start: 0,
   current: CONFIG_API.defaultLimit,
   total: 0,
-  // getNext: '',
-  // getPrevious: '',
-  error: false
+  sortStore: "ID",
+  error: false,
 };
 
 export const dataSlice = createSlice({
@@ -30,8 +28,6 @@ export const dataSlice = createSlice({
   reducers: {
     setPokemonListAction: (state, action) => {
       state.pokemonListById = action.payload;
-      // state.getNext = action.payload.getNext;
-      // state.getPrevious = action.payload.getPrevious;
     },
     setPokemonListByNameAction: (state, action) => {
       state.pokemonListByName = action.payload;
@@ -44,11 +40,21 @@ export const dataSlice = createSlice({
       state.current = action.payload.current;
     },
     setTotal: (state, action) => {
-      state.total = action.payload
-    }
+      state.total = action.payload;
+    },
+    setSortStore: (state, action) => {
+      state.sortStore = action.payload;
+    },
   },
 });
 
-export const {setPokemonListAction, setPokemonListByNameAction, setErrorAction, setOrder, setTotal} = dataSlice.actions;
+export const {
+  setPokemonListAction,
+  setPokemonListByNameAction,
+  setErrorAction,
+  setOrder,
+  setTotal,
+  setSortStore
+} = dataSlice.actions;
 
 export default dataSlice.reducer;

@@ -21,6 +21,7 @@ import {
   setPokemonListByNameAction,
   setOrder,
   setTotal,
+  setSortStore,
 } from "./store/slices/dataSlice";
 // style
 import styles from "./App.module.scss";
@@ -28,8 +29,14 @@ import "./App.module.scss";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { pokemonListById, pokemonListByName, start, current, total } =
-    useAppSelector((state) => state.dataReducer);
+  const {
+    pokemonListById,
+    pokemonListByName,
+    start,
+    current,
+    total,
+    sortStore,
+  } = useAppSelector((state) => state.dataReducer);
   const navigate = useNavigate();
 
   const [configModal, setConfigModal] = useState<configModalType>({
@@ -44,10 +51,14 @@ const App = () => {
       dispatch(setTotal(count));
       await getAllPokemon(count);
     };
-    initial();
-    // if (!pokemonListById.length) {
-    //   getAllPokemon();
-    // }
+    if (!pokemonListById.length) {
+      initial();
+    } else {
+      if (start !== 0) setDisablePrevious(false);
+      if (total <= current) setDisableNext(true);
+      setSort(sortStore);
+      setShowPokemonList(sortStore, start, current);
+    }
   }, []);
 
   const [showList, setShowList] = useState<BasicType[]>([]);
@@ -117,8 +128,6 @@ const App = () => {
       dispatch(setOrder(payload));
       setShowPokemonList(sort, newStart, start);
     }
-    // const data = await getPokemons(getPrevious);
-    // setStateData(data);
     dispatch(setShowLoader(false));
   };
 
@@ -137,8 +146,6 @@ const App = () => {
       dispatch(setOrder(payload));
       setShowPokemonList(sort, current, newCurrent);
     }
-    // const data = await getPokemons(getNext);
-    // setStateData(data);
     dispatch(setShowLoader(false));
   };
 
@@ -170,6 +177,7 @@ const App = () => {
 
   const onClickRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSort(e.target.value);
+    dispatch(setSortStore(e.target.value));
     setShowPokemonList(e.target.value, start, current);
   };
 
