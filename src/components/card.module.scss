@@ -1,32 +1,38 @@
 @import "../variable.module.scss";
 
 .container {
-    background-color: $light-color;
-    border: 1px solid $border-color;
-    border-radius: 12px;
+  background-color: $light-color;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  width: 316px;
+  height: 104px;
+  transition: 0.3s;
+  cursor: pointer;
+  .imageContainer {
+    background-color: $gray-color;
+    border-radius: 50%;
+    height: 72px;
+    width: 72px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    width: 316px;
-    height: 104px;
-    .imageContainer {
-        background-color: $gray-color;
-        border-radius: 50%;
-        height: 72px;
-        width: 72px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0px 17px;
-        .image {
-            height: 64px;
-            width: 64px;
-        }
+    margin: 0px 17px;
+    .image {
+      height: 64px;
+      width: 64px;
     }
-    .nameContainer {
-        font-weight: 500;
-        font-size: 20px;
-    }
-    .nameContainer::first-letter {
-        text-transform: capitalize;
-    }
+  }
+  .nameContainer {
+    font-weight: 500;
+    font-size: 20px;
+  }
+  .nameContainer::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.container:hover {
+  scale: 1.05;
 }
