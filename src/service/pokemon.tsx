@@ -22,6 +22,16 @@ export const getAllPokemonsList = async (count: number) => {
   }
 };
 
+export const getPokemon = async (id: string) => {
+  const url =  `${CONFIG_URL.pokemonUrl}pokemon/${id}`;
+  try {
+    const response = await _get(url);
+    return response.data;
+  } catch (err) {
+    return err
+  }
+}
+
 export const getPokemons = async (url?: string) => {
   let getUrl;
   if (!url) {

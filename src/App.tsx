@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // components
 import RadioButton from "./components/radioButton";
 import Card from "./components/card";
@@ -7,8 +8,9 @@ import AlertModal from "./components/alertModal";
 import Loader from "./components/loader";
 
 import { getAllPokemonsList, getPokemons } from "./service";
+import { getPokemonId } from "./util/pokemonUtil";
 import { CONFIG_API } from "./config/config";
-import { configModalType, dataStateType, pokemonData } from "./type";
+import { configModalType, dataStateType, BasicType } from "./type";
 // store
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "./store/store";
@@ -28,6 +30,7 @@ const App = () => {
   const dispatch = useDispatch();
   const { pokemonListById, pokemonListByName, start, current, total } =
     useAppSelector((state) => state.dataReducer);
+  const navigate = useNavigate();
 
   const [configModal, setConfigModal] = useState<configModalType>({
     title: "",
@@ -47,11 +50,10 @@ const App = () => {
     // }
   }, []);
 
-  const [showList, setShowList] = useState<pokemonData[]>([]);
+  const [showList, setShowList] = useState<BasicType[]>([]);
   const [sort, setSort] = useState<string>("ID");
   const [disableNext, setDisableNext] = useState<boolean>(false);
   const [disablePrevious, setDisablePrevious] = useState<boolean>(true);
-
 
   const setStateData = (data: dataStateType) => {
     const payload = data.results;
@@ -109,9 +111,9 @@ const App = () => {
         current: start,
       };
       if (newStart === 0) {
-        setDisablePrevious(true)
+        setDisablePrevious(true);
       }
-      setDisableNext(false)
+      setDisableNext(false);
       dispatch(setOrder(payload));
       setShowPokemonList(sort, newStart, start);
     }
@@ -129,9 +131,9 @@ const App = () => {
         current: newCurrent,
       };
       if (total <= newCurrent) {
-        setDisableNext(true)
+        setDisableNext(true);
       }
-      setDisablePrevious(false)
+      setDisablePrevious(false);
       dispatch(setOrder(payload));
       setShowPokemonList(sort, current, newCurrent);
     }
@@ -156,7 +158,7 @@ const App = () => {
     setShowList(spliceList);
   };
 
-  const compare = (a: pokemonData, b: pokemonData) => {
+  const compare = (a: BasicType, b: BasicType) => {
     if (a.name < b.name) {
       return -1;
     }
@@ -186,7 +188,14 @@ const App = () => {
       <div className={styles.contentContainer}>
         {showList.length ? (
           showList.map((item, index) => (
-            <Card key={index} name={item.name} url={item.url} />
+            <Card
+              key={index}
+              name={item.name}
+              url={item.url}
+              onClick={() =>
+                navigate(`/pokemon-detail/${getPokemonId(item.url)}`)
+              }
+            />
           ))
         ) : (
           <div>Pokemon Not Found</div>

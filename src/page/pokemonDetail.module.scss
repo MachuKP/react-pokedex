@@ -1,0 +1,80 @@
+@import "../variable.module.scss";
+
+label {
+  margin: 0;
+}
+
+.container {
+  background-color: $gray-background;
+  height: 100vh;
+  .mainContainer {
+    box-sizing: border-box;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .name {
+      font-size: 26px;
+    }
+    .name::first-letter {
+      text-transform: capitalize;
+    }
+    .imageContainer {
+      background-color: $gray-color;
+      border-radius: 50%;
+      height: 50vw;
+      width: 50vw;
+      max-height: 200px;
+      max-width: 200px;
+      min-width: 72px;
+      min-height: 72px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0px;
+      .image {
+        height: 50vw;
+        width: 50vw;
+        max-height: 200px;
+        max-width: 200px;
+        min-width: 72px;
+        min-height: 72px;
+      }
+    }
+    .content {
+      background-color: $light-color;
+      border: 1px solid $border-color;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 400px;
+      padding: 20px;
+      .detailContainer {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+        label {
+          width: 45%;
+        }
+        .detail {
+          width: 55%;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .mapItem:not(:last-child):after {
+          content: ",";
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .footer {
+    position: fixed;
+    background-color: $gray-background;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

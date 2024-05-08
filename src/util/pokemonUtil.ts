@@ -6,3 +6,8 @@ export const getPokemonUrl = (url: string) => {
   return `${CONFIG_URL.pokemonImage}${pokemonImage}`;
 };
 
+export const getPokemonId = (url: string) => {
+  const pokemonId = url.split("pokemon-species/")[1]
+  return pokemonId.replace("/", "");
+}
+

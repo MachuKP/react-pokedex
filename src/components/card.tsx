@@ -4,11 +4,12 @@ import styles from "./card.module.scss";
 interface propType {
   name: string;
   url: string;
+  onClick: () => void; 
 }
 
-const Card = ({ name, url }: propType) => {
+const Card = ({ name, url, onClick }: propType) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       <div className={styles.imageContainer}>
         <img
           className={styles.image}

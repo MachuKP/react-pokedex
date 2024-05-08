@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { pokemonData } from "../../type";
+import { BasicType } from "../../type";
 import { CONFIG_API } from "../../config/config";
 
 export interface DataState {
-  pokemonListById: pokemonData[];
-  pokemonListByName: pokemonData[];
+  pokemonListById: BasicType[];
+  pokemonListByName: BasicType[];
   start: number;
   current: number;
   total: number;
